@@ -17,7 +17,7 @@ def main():
         print("Run as python (script name) (csv filename)")
     else:
         with open(sys.argv[1], mode='r') as csv_file:
-            groups = [{}, {}, {}, {}, {}, {}] #contains student and their preference for each MAP group
+            groups = [{}, {}, {}, {}, {}, {}]
             final = [ [],
                       [],
                       [],
@@ -41,7 +41,6 @@ def main():
                 free.append(name)
 
             makeGroups(groups, final, free, groupSize)
-            print(groups)
-            #for f in final:
-             #   print(f)
+            for f in final:
+                print(f)
 main()
