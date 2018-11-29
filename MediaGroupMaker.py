@@ -9,15 +9,18 @@ def removeGroup(groups, final, free, groupSize):
             minLen = len(final[i])
             minIndex = i
 
-    for s in final[minLen]:
-        free.append(s)
+    for s in range(1, len(final[minLen])):
+        free.append(final[minLen][s])
 
     del final[minLen]
     del groups[minLen]
 
 def makeGroups(groups, final, free, groupSize, numGroups):
+    remove = True
     target = 0
-    while (target != numGroups): #loop through choice rankings
+    if len(free) > 20:
+        remove = False
+    while (target != numGroups+1): #loop through choice rankings
         for i in range(len(groups)): #loop through topics
             for k,v in groups[i].items():
                 #if student has chosen this group and is not already in a group
@@ -25,11 +28,8 @@ def makeGroups(groups, final, free, groupSize, numGroups):
                     final[i].append(k)
                     free.remove(k) #student is placed in a group
         target+=1
-    for f in final:
-        print(f)
-    print("-------------------------------")
     #Find least populated group and add memebers to other groups
-    if numGroups > 6:
+    if numGroups > 5 and remove:
         removeGroup(groups, final, free, groupSize)
         makeGroups(groups, final, free, groupSize, numGroups-1)
         
@@ -47,7 +47,7 @@ def main():
                       [] ] #list of final MAP groups
             free = []
             groupSize = 4 #this can be changed
-            numGroups = 7
+            numGroups = 6
 
             data = [row for row in csv.reader(csv_file)] #reads csv into matrix form
             #Sets up groups
@@ -63,4 +63,6 @@ def main():
                 free.append(name)
 
             makeGroups(groups, final, free, groupSize, numGroups)
+            for f in final:
+                print(f)
 main()
